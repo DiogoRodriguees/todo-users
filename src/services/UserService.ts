@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserDTO } from 'src/classes/dtos/UserDTO';
 import { UserEntity } from 'src/entities/UserEntity';
 import { UserRepository } from 'src/repositories/UserRepository';
@@ -12,7 +12,7 @@ export class UserService {
       where: { email: newUser.email },
     });
 
-    if (userExist) return 'Email já esta cadastrado';
+    if (userExist) throw new HttpException('Email já esta cadastrado', HttpStatus.CONFLICT);
 
     const user = new UserEntity(newUser);
 
