@@ -28,10 +28,10 @@ export class UserController {
     return new ResponseDTO(HttpStatus.OK, 'Update user', {});
   }
 
-  @Delete()
+  @Delete(':id')
   @UseGuards(AuthGuard)
-  async delete(@Req() request: any) {
-    await this.userService.delete(request.user.id);
+  async delete(@Param() id: string) {
+    await this.userService.delete(id);
     return new ResponseDTO(HttpStatus.OK, 'User deleted', {});
   }
 }
