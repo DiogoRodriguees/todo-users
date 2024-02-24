@@ -4,10 +4,7 @@ import { UserEntity } from 'src/entities/UserEntity';
 import { IsNull, Repository } from 'typeorm';
 
 export class UserRepository extends Repository<UserEntity> {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly repository: Repository<UserEntity>,
-  ) {
+  constructor(@InjectRepository(UserEntity) private readonly repository: Repository<UserEntity>) {
     super(repository.target, repository.manager, repository.queryRunner);
   }
 
@@ -18,9 +15,7 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
   async checkIfMailExist(email: string) {
-    const user = await this.findOne({
-      where: { email: email, deletedAt: IsNull() },
-    });
+    const user = await this.findOne({ where: { email: email, deletedAt: IsNull() } });
     if (user) throw new ConflictException('Mail already registered');
   }
 

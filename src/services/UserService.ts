@@ -9,9 +9,10 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async create(userDTO: UserDTO) {
-    await this.userRepository.checkIfMailExist(userDTO.email);
-    userDTO.password = await generateHash(userDTO.password);
-    const user = new UserEntity(userDTO);
+    const { name, email, password } = userDTO;
+    await this.userRepository.checkIfMailExist(email);
+    const hash = await generateHash(password);
+    const user = new UserEntity(name, email, hash);
     return await this.userRepository.save(user);
   }
 

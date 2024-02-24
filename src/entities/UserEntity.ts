@@ -1,4 +1,3 @@
-import { UserDTO } from 'src/classes/dtos/UserDTO';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('users')
@@ -25,9 +24,9 @@ export class UserEntity {
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp with time zone', nullable: true })
   deletedAt: string;
 
-  constructor(user: UserDTO) {
-    this.name = user?.name;
-    this.email = user?.email;
-    this.password = user?.password;
+  constructor(name: string, email: string, password: string) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
   }
 }
