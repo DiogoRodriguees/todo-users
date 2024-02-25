@@ -17,11 +17,11 @@ export class AuthGuard implements CanActivate {
     const isPublicRoute = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [context.getHandler(), context.getClass()]);
 
     if (isPublicRoute) return true;
+    if (request.headers.clientid == process.env.CLIENT_ID) return true;
     if (!token) throw new UnauthorizedException();
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, { secret: process.env.JWT_SECRET });
-      request['user'] = payload;
+      request['user'] = await this.jwtService.verifyAsync(token, { secret: process.env.JWT_SECRET });
     } catch {
       throw new UnauthorizedException();
     }

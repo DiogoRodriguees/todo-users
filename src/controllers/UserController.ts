@@ -19,7 +19,7 @@ export class UserController {
   @Get()
   async find(@Param('id') id: string) {
     const user = await this.userService.find(id);
-    return new ResponseDTO(HttpStatus.OK, 'User found', user);
+    return new ResponseDTO(HttpStatus.OK, 'Get user complete', user);
   }
 
   @Put()
